@@ -1,0 +1,38 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+  padding: 5px;
+  text-align: center;
+}
+
+.thinking {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  transition: 2s;
+}
+
+.thinking:hover {
+  transform: rotate(360deg);
+  width: 200px;
+  height: 200px;
+  transition: 2s;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin-left: -38px;
+}
