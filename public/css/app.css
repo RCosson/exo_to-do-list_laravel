@@ -8374,6 +8374,10 @@ body {
   transition: 2s;
 }
 
+.through {
+  text-decoration: line-through;
+}
+
 ul {
   list-style: none;
 }

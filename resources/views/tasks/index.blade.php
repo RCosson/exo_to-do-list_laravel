@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="/css/app.css">
   </head>
   <body>
+    <div id="tasks"></div>
+    <div id="app">
+
+    </div>
     <form class="form" action="/save" method="post">
       <label for="name">Task name</label><br/>
-      <input type="text" name="name"><br/><br/>
-
+      <input type="text" class="input" name="name"><br/><br/>
       <button type="submit" name="add">Add</button>
       {{ csrf_field() }}
     </form>
@@ -19,7 +22,7 @@
       style="text-decoration: line-through;"
       @endif">{{$task->name}}
         <form action="/update" method="post">
-          <input value="{{$task->id}}" name="task_id" type="checkbox"
+          <input class="submit" value="{{$task->id}}" name="task_id" type="checkbox"
           @if ($task->status == 1)
           checked onclick="return false"
           @endif
@@ -28,7 +31,8 @@
         </form>
       </li>
     @endforeach
-    </ul>
+  </ul>
     <img class="thinking" src="http://et-38d7.kxcdn.com/twitter-svg/1f914.svg" alt="thinking">
+    <script type="text/javascript" src="/js/app.js"></script>
   </body>
 </html>

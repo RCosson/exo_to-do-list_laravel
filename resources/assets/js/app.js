@@ -1,22 +1,68 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+class App extends React.Component {
+	constructor(){
+		super();
+		this.state = {
+			tasks : [
+				// {id:1, title: "Faire la lessive"},
+				// {id:2, title: "Manger", fait:true},
+				// {id:3, title: "Faire prout"},
+			]
+		}
+	}
 
-require('./bootstrap');
+  // On charge les données à partir du serveur : on charge les données en ajax
+  componentDidMount(){
+    $.get('/api/tasks', (data)=>{
+      let tasks = JSON.parse(data);
+      this.setState({tasks : tasks})
+    });
+  }
 
-window.Vue = require('vue');
+	removeItem(id){
+		let found = this.state.tasks.find((elt)=>{
+			return elt.id === id;
+		})
+		let pos = this.state.tasks.indexOf(found)
+		this.state.tasks.splice(pos, 1);
+		this.setState({tasks: this.state.tasks});
+	}
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+	render(){
 
-Vue.component('example', require('./components/Example.vue'));
+		return (
+			<div>
+				<Todo data={this.state.tasks} removeItem={this.removeItem.bind(this)} />
+			</div>
+			)
+	}
+}
 
-const app = new Vue({
-    el: '#app'
-});
+class Todo extends React.Component {
+
+	deleteTask(id){
+		$.post('/api/tasks/delete', { id : id}, ()=>{
+			console.log("elt supprimé sur le serveur")
+		})
+
+		this.props.removeItem(id)
+	}
+
+	render(){
+		let tasks = this.props.data.map((task)=>{
+			return <li>{task.name} <button onClick={()=>{this.deleteTask(task.id)}}>X</button></li>;
+		});
+
+		return (<ul>
+			{tasks}
+		</ul>);
+	}
+}
+
+ReactDOM.render(
+	<App />,
+	document.querySelector("#app")
+	)
